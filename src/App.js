@@ -7,6 +7,7 @@ import './App.css';
 import PokemonInfo from './components/PokemonInfo';
 import PokemonFilter from './components/PokemonFilter';
 import PokemonTable from './components/PokemonTable';
+import PokemonContex from './PokemonContex';
 
 const Title = styled.h1`
 	text-align: center;
@@ -28,12 +29,6 @@ function App() {
 	const [selectedPokemon, selectedPokemonSet] = React.useState(null);
 
 	React.useEffect(() => {
-		// let host =
-		// 	!process.env.NODE_ENV || process.env.NODE_ENV === 'development'
-		// 		? 'http://localhost:3000'
-		// 		: '';
-
-		// fetch(`${host}/starting-react/pokemon.json`)
 		fetch(`/starting-react/pokemon.json`)
 			.then(resp => resp.json())
 			.then(data => pokemonSet(data));
@@ -44,21 +39,27 @@ function App() {
 	}
 
 	return (
-		<PageContainer>
-			<CssBaseline />
-			<Title>Pokemon Search</Title>
-			<TwoColumnLayout>
-				<div>
-					<PokemonFilter filter={filter} filterSet={filterSet} />
-					<PokemonTable
-						filter={filter}
-						pokemon={pokemon}
-						selectedPokemonSet={selectedPokemonSet}
-					/>
-				</div>
-				{selectedPokemon && <PokemonInfo {...selectedPokemon} />}
-			</TwoColumnLayout>
-		</PageContainer>
+		<PokemonContex.Provider
+			value={{
+				filter,
+				pokemon,
+				selectedPokemon,
+				filterSet,
+				pokemonSet,
+				selectedPokemonSet
+			}}>
+			<PageContainer>
+				<CssBaseline />
+				<Title>Pokemon Search</Title>
+				<TwoColumnLayout>
+					<div>
+						<PokemonFilter />
+						<PokemonTable />
+					</div>
+					<PokemonInfo />
+				</TwoColumnLayout>
+			</PageContainer>
+		</PokemonContex.Provider>
 	);
 }
 

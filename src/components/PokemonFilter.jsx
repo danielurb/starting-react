@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
+
+import PokemonContex from '../PokemonContex';
 
 const Input = styled.input`
 	width: 100%;
@@ -7,8 +9,12 @@ const Input = styled.input`
 	font-size: large;
 `;
 
-const PokemonFilter = ({ filter, filterSet }) => (
-	<Input type='text' value={filter} onChange={evt => filterSet(evt.target.value)} />
-);
+const PokemonFilter = () => {
+	const { filter, filterSet } = useContext(PokemonContex);
+
+	return (
+		<Input type='text' value={filter} onChange={evt => filterSet(evt.target.value)} />
+	);
+};
 
 export default PokemonFilter;
