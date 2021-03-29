@@ -10,10 +10,22 @@ const Input = styled.input`
 `;
 
 const PokemonFilter = () => {
-	const { filter, filterSet } = useContext(PokemonContex);
+	const {
+		state: { filter },
+		dispatch
+	} = useContext(PokemonContex);
 
 	return (
-		<Input type='text' value={filter} onChange={evt => filterSet(evt.target.value)} />
+		<Input
+			type='text'
+			value={filter}
+			onChange={evt =>
+				dispatch({
+					type: 'SET_FILTER',
+					payload: evt.target.value
+				})
+			}
+		/>
 	);
 };
 
